@@ -9,7 +9,7 @@ function DashboardCard({
 }: PassInProp) {
 
     return(
-        <div className="bg-zinc-800 p-6 rounded-2xl text-white">
+        <div className="bg-zinc-800 p-6 rounded-2xl shadow-md hover:scale-105 transition duration-300 text-white">
             <p className="text-zinc-400 text-sm">
                 {title}
                 </p>

@@ -1,30 +1,38 @@
 import Sidebar from "../components/Sidebar"
 import DashboardCard from "../components/DashboardCard"
 import StudentRow from "../components/StudentRow"
+import SearchBar from "../components/SearchBar"
 import { studentList } from "../data/students"
 
 function Dashboard() {
   const header_styling = "p-4 text-left"
   return (
-    <div className=" w-full m-14 box-border flex flex-wrap gap-5 justify-start max-w-lvw ">
-      <div className="grid grid-cols-4 gap-5">
-        <h1 className="text-3xl font-bold mb-6 justify-center">Student Dashboard</h1>
-        <Sidebar />
-        <DashboardCard title = "Average Grade"value = "70"/>
-        <DashboardCard title="Attendance" value="91%" />
-        <DashboardCard title="Modules" value="5" />
-        <DashboardCard title="Assignments" value="3" />
-      </div>
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar />
 
+      <main className="flex-1 p-8 ml-20">
+        <h1 className="text-3xl font-bold mb-6">Student Dashboard</h1>
+
+        {/* Styling for the grid and cards */}
+        <section className="grid grid-cols-4 gap-5 my-6">
+        <SearchBar />
+          <DashboardCard title = "Average Grade"value = "70"/>
+          <DashboardCard title="Attendance" value="91%" />
+          <DashboardCard title="Modules" value="5" />
+          <DashboardCard title="Assignments" value="3" />
+        </section>
+
+        {/*Styling and Placement for the table  */}
       <table className="w-full rounded-xl overflow-hidden shadow-md">
         <thead className="bg-gray-200">
-        <tr>
+
+          <tr>
             <th className={`${header_styling}`}>ID</th>
             <th className={`${header_styling}`}>Name</th>
             <th className={`${header_styling}`}>Course</th>
             <th className={`${header_styling}`}>Grade</th>
             <th className={`${header_styling}`}>Attendance</th>
-        </tr>
+          </tr>
         </thead>
 
         <tbody>
@@ -39,7 +47,8 @@ function Dashboard() {
             />
           ))}
         </tbody>
-    </table>    
+      </table>
+      </main>
     </div>
   )
 }
