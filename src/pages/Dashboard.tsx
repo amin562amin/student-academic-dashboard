@@ -28,12 +28,15 @@ function Dashboard() {
 
   const uniqueCourses = [...new Set (students.map((student) => student.course))]
 
+  const deleteStudent = (id:number) =>{
+    setStudents(students.filter((student) => student.id !== id));
+  }
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
 
       <main className="flex-1 p-8 ml-20">
-        <h1 className="text-3xl font-bold mb-6">Student Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-6 align-top">Student Dashboard</h1>
 
         {/* Styling for the grid and cards */}
         <section className="grid grid-cols-4 gap-5 my-6">
@@ -63,6 +66,7 @@ function Dashboard() {
             <th className={`${header_styling}`}>Average Grade</th>
             <th className={`${header_styling}`}>Qualification</th>
             <th className={`${header_styling}`}>Attendance</th>
+            <th className= {`${header_styling}`}> Actions</th>
           </tr>
         </thead>
 
@@ -78,11 +82,12 @@ function Dashboard() {
             averageGrade={student.averageGrade}
             qualification={student.qualification}
             attendance={student.attendance}
+            deleteStudent={deleteStudent}
             />
             ))) : (
 
               <tr>
-                <td colSpan={6} className="py-6 text-center text-gray-500">
+                <td colSpan={7} className="py-6 text-center text-gray-500">
                 No Students Found
                 </td>
               </tr>
