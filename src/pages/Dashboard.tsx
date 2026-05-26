@@ -12,6 +12,22 @@ function Dashboard() {
   const [searchTerm, setsearchTerm] = useState("");
 
   const filteredStudent = students.filter((student) => student.name.toLocaleLowerCase().includes(searchTerm.toLowerCase()));
+  
+  const average_Grade = students.length > 0 ?
+  Math.round(students.reduce(
+  (total, student) => total + student.averageGrade,
+  0
+)/ students.length)
+  :0;
+
+  const averageAttendance = students.length > 0 ?
+  Math.round(students.reduce(
+    (total, student) => total + student.attendance, 0
+  )/ students.length)
+  : 0;
+
+  const uniqueCourses = [...new Set (students.map((student) => student.course))]
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
@@ -25,25 +41,27 @@ function Dashboard() {
         searchTerm={searchTerm}
         setSearchTerm={setsearchTerm} 
         />
-          <DashboardCard title = "Average Grade"value = "70"/>
-          <DashboardCard title="Attendance" value="91%" />
-          <DashboardCard title="Modules" value="5" />
-          <DashboardCard title="Assignments" value="3" />
+          <DashboardCard title = "Average Grade" value = {average_Grade.toString()}/>
+          <DashboardCard title="Average Attendance" value= {averageAttendance.toString()} />
+          <DashboardCard title="Total Students" value={students.length.toString()} />
+          <DashboardCard title="Unique Classifications" value= {uniqueCourses.length.toString()} />
         </section>
         <AddStudentsForm
         students={students}
         setStudents={setStudents}
+        
           />
 
         {/*Styling and Placement for the table  */}
       <table className="w-full rounded-xl overflow-hidden shadow-md">
         <thead className="bg-gray-200">
 
-          <tr>
+          <tr>            
             <th className={`${header_styling}`}>ID</th>
             <th className={`${header_styling}`}>Name</th>
             <th className={`${header_styling}`}>Course</th>
-            <th className={`${header_styling}`}>Grade</th>
+            <th className={`${header_styling}`}>Average Grade</th>
+            <th className={`${header_styling}`}>Qualification</th>
             <th className={`${header_styling}`}>Attendance</th>
           </tr>
         </thead>
@@ -57,13 +75,14 @@ function Dashboard() {
             id={student.id}
             name={student.name}
             course={student.course}
-            grade={student.grade}
+            averageGrade={student.averageGrade}
+            qualification={student.qualification}
             attendance={student.attendance}
             />
             ))) : (
 
               <tr>
-                <td colSpan={5} className="py-6 text-center text-gray-500">
+                <td colSpan={6} className="py-6 text-center text-gray-500">
                 No Students Found
                 </td>
               </tr>
