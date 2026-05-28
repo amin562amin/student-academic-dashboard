@@ -2,7 +2,7 @@ import Sidebar from "../components/Sidebar"
 import DashboardCard from "../components/DashboardCard"
 import StudentRow from "../components/StudentRow"
 import SearchBar from "../components/SearchBar"
-import AddStudentsForm from "../components/AddStudentsForm"
+import AddStudentsForm, {type Student} from "../components/AddStudentsForm"
 import { studentList } from "../data/students"
 import { useState } from "react"
 
@@ -10,6 +10,7 @@ function Dashboard() {
   const header_styling = "p-4 text-left"
   const [students, setStudents] = useState(studentList);
   const [searchTerm, setsearchTerm] = useState("");
+  const [editingStudent, setEditingStudent] = useState<Student | null>(null);
 
   const filteredStudent = students.filter((student) => student.name.toLocaleLowerCase().includes(searchTerm.toLowerCase()));
   
@@ -52,6 +53,8 @@ function Dashboard() {
         <AddStudentsForm
         students={students}
         setStudents={setStudents}
+        editingStudent={editingStudent}
+        setEditingStudent={setEditingStudent}
         
           />
 
@@ -83,11 +86,12 @@ function Dashboard() {
             qualification={student.qualification}
             attendance={student.attendance}
             deleteStudent={deleteStudent}
+            setEditingStudent={setEditingStudent}
             />
             ))) : (
 
               <tr>
-                <td colSpan={7} className="py-6 text-center text-gray-500">
+                <td colSpan={8} className="py-6 text-center text-gray-500">
                 No Students Found
                 </td>
               </tr>

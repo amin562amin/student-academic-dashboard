@@ -1,3 +1,5 @@
+import type { Student } from "./AddStudentsForm"
+
 
 type StudentRowProps = {
   id: number
@@ -7,9 +9,23 @@ type StudentRowProps = {
   qualification: string
   attendance: number
   deleteStudent: (id: number) => void
+  setEditingStudent: React.Dispatch<React.SetStateAction<Student | null>>
 }
 
-function StudentRow({ id, name, course, averageGrade, qualification, attendance, deleteStudent}: StudentRowProps){
+function StudentRow({ id, name, course, averageGrade, qualification, attendance, deleteStudent, setEditingStudent}: StudentRowProps){
+const currentStudent: Student = {
+
+  id,
+  name,
+  course,
+  averageGrade,
+  qualification,
+  attendance,
+};
+
+
+    
+    
     const qualificationColour =
     qualification === "First" 
     ? "bg-green-100 text-green-800" 
@@ -29,8 +45,23 @@ function StudentRow({ id, name, course, averageGrade, qualification, attendance,
                    {qualification} 
                    </span></td>
             <td className="p-4 hover:bg-gray-50 transition">{attendance}</td>
-            <td><button className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition"
-            onClick={() => deleteStudent(id)}>Delete</button></td>
+            <td className="p-4">
+  <div className="flex gap-2">
+    <button
+      className="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition"
+      onClick={() => setEditingStudent(currentStudent)}
+    >
+      Edit
+    </button>
+
+    <button
+      className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition"
+      onClick={() => deleteStudent(id)}
+    >
+      Delete
+    </button>
+  </div>
+</td>
         </tr>
     )
 }

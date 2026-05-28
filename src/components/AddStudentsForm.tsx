@@ -1,8 +1,13 @@
-import { useState, type SetStateAction } from "react"
+import { useEffect, useState, type SetStateAction } from "react"
+
 
 type StudentFormProps = {
   students: Student[];
   setStudents: React.Dispatch<SetStateAction<Student[]>>;
+//   Giving the Program what is needed to edit existing student
+  editingStudent: Student | null;
+//   A function capable of updating a Student or Null state
+  setEditingStudent: React.Dispatch<SetStateAction<Student | null>>;
 }
 
 
@@ -19,13 +24,27 @@ export type Student = {
 
 
 
-function AddStudentsForm({ students, setStudents,  }: StudentFormProps) {
+function AddStudentsForm({ students, setStudents,editingStudent, setEditingStudent  }: StudentFormProps) {
     const [name, setName] = useState("");
     const [course, setCourse] = useState("");
     const [averageGrade, setaverageGrade] = useState("");
     const [attendance, setAttendance] = useState("");
     const gradeValue = Number(averageGrade)
 
+    // Code runs when something changes and only if someones details are being edited 
+    // This effect is only reran when editingStudent changes
+    useEffect(() => {
+        if (editingStudent)
+        {
+
+            setName(editingStudent.name);
+            setCourse(editingStudent.course);
+            setaverageGrade(editingStudent.averageGrade.toString());
+            setAttendance(editingStudent.attendance.toString()); 
+        }
+    }, [editingStudent]
+
+    )
 
     const getQualification = (averageGrade: number) => {
         if (averageGrade >= 70) return "First";
@@ -35,14 +54,16 @@ function AddStudentsForm({ students, setStudents,  }: StudentFormProps) {
         return "Fail";
     };
 
-    const handleAddStudent = () => {
+    const handleSubmitStudent = () => {
+        // if any field is empty, function stops
         if (!name || !course || !averageGrade || !attendance) 
         {
             return;
         }
+        //  object that represents final student information
         const newStudent: Student = {
-
-            id: students.length + 1,
+            //  Keeping same student id 
+            id: editingStudent ? editingStudent.id: students.length + 1,
             name,
             course,
             qualification: getQualification(gradeValue),
@@ -50,13 +71,36 @@ function AddStudentsForm({ students, setStudents,  }: StudentFormProps) {
             attendance: Number(attendance),
         };
 
+        if (editingStudent){
+            setStudents(
+                students.map((student) =>
+                    student.id === editingStudent.id ? newStudent: student
+                )
+            );
+            // No one is being edited any more 
+            setEditingStudent(null);
+        }else {
+            setStudents([... students, newStudent]);
+        
+
         setStudents([...students, newStudent]);
         setName("");
         setCourse("");
         setaverageGrade("");       
         setAttendance("");
         console.log(newStudent);
+        }
     }
+
+    const handleCancelEdit = () => {
+        setEditingStudent(null);
+
+        setName("");
+        setCourse("");
+        setaverageGrade("");
+        setAttendance("");
+    }
+
     return( 
         <div className="bg-gray-200 rounded-xl p-6 shadow-md my-6">
             <h2 className="text-xl font-semibold mb-4">Add Student</h2>
@@ -94,12 +138,23 @@ function AddStudentsForm({ students, setStudents,  }: StudentFormProps) {
                 value={attendance}
                 onChange={(e) => setAttendance(e.target.value)} /> 
 
-                <button onClick={() => handleAddStudent()}
+                <button onClick={() => handleSubmitStudent()}
                 type="button"
                 className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
                 >
-                Add Student
+                {editingStudent ? "Save Changes" : "Add Student"}
                 </button>
+
+                {
+                    editingStudent && (
+                        <button type="button"
+                        onClick={handleCancelEdit}
+                        className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition"
+                        >
+                         Cancel   
+                        </button>
+                    )
+                }
             </form>
         </div>
     )
