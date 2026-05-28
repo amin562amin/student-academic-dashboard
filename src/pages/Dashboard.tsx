@@ -4,16 +4,29 @@ import StudentRow from "../components/StudentRow"
 import SearchBar from "../components/SearchBar"
 import AddStudentsForm, {type Student} from "../components/AddStudentsForm"
 import { studentList } from "../data/students"
-import { useState } from "react"
+import { useEffect,useState } from "react"
 
 function Dashboard() {
   const header_styling = "p-4 text-left"
-  const [students, setStudents] = useState(studentList);
+  const [students, setStudents] = useState<Student[]>(()=>
+  {
+    const savedStudents = localStorage.getItem("students");
+    return savedStudents ? JSON.parse(savedStudents)
+    : studentList;
+  });
   const [searchTerm, setsearchTerm] = useState("");
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
 
+  useEffect(() => {
+    localStorage.setItem("students", JSON.stringify(students));
+  }, [students]);
+
   const filteredStudent = students.filter((student) => student.name.toLocaleLowerCase().includes(searchTerm.toLowerCase()));
-  
+  const firstClassStudents = students.filter((student) => student.qualification === "First").length;
+  const atRiskStudents = students.filter((student) => student.averageGrade < 40||student.attendance < 60).length;
+  const topStudent = students.reduce((highest, student) => student.averageGrade > highest.averageGrade
+  ? student : highest
+  )
   const average_Grade = students.length > 0 ?
   Math.round(students.reduce(
   (total, student) => total + student.averageGrade,
@@ -49,6 +62,9 @@ function Dashboard() {
           <DashboardCard title="Average Attendance" value= {averageAttendance.toString()} />
           <DashboardCard title="Total Students" value={students.length.toString()} />
           <DashboardCard title="Unique Classifications" value= {uniqueCourses.length.toString()} />
+          <DashboardCard title= "First Class Students" value = {firstClassStudents.toString()}/>
+          <DashboardCard title = " At Risk Students" value = {atRiskStudents.toString()} />
+          <DashboardCard title = " Top Student" value = {topStudent.name.toString()} />
         </section>
         <AddStudentsForm
         students={students}
