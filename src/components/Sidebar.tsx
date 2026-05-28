@@ -1,5 +1,7 @@
 import {Menu, PenAlt, ChartSine, Cog, BookOpen} from '@boxicons/react';
 import {useState} from 'react';
+import { Link } from 'react-router-dom';
+
 function Sidebar()
 {
     const[pressed, setPressed] = useState(false);
@@ -16,33 +18,37 @@ function Sidebar()
        </div> 
        <ul className='space-y-4'>
         <li>
-            <a href="#" 
+            <Link
+            to="/"
             className={`flex items-center gap-3 ${textStyling}`}>
                 <PenAlt className='text-2xl' />
                 {pressed && <span> Dashboard </span>}
-            </a>
+            </Link>
         </li>
 
         <li>
-            <a href="#"
+            <Link
+            to="/students"
             className={`flex items-center gap-3 ${textStyling}`}>
                 <BookOpen className='text-2xl' />
-                {pressed && <span>Modules </span>}
-            </a>
+                {pressed && <span>Students </span>}
+            </Link>
         </li>
         <li>
-            <a href="#"
+            <Link
+            to="/analytics"
             className={`flex items-center gap-3 ${textStyling}`}>
                 <ChartSine className='text-2xl' />
                 {pressed &&<span>Analytics </span>}
-            </a>           
+            </Link>           
         </li>
         <li>
-            <a href="#"
+           <Link
+            to="/settings"
             className={`flex items-center gap-3 ${textStyling}`}>
                 <Cog className='text-2xl' />
                 {pressed && <span>Settings </span>}
-            </a>           
+            </Link>           
         </li>
        </ul>
 
