@@ -1,4 +1,4 @@
-import { Sidebar } from "@boxicons/react";
+import Sidebar from "../components/Sidebar";
 
 
 

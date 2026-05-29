@@ -1,27 +1,24 @@
 import Sidebar from "../components/Sidebar"
 import DashboardCard from "../components/DashboardCard"
-import StudentRow from "../components/StudentRow"
-import SearchBar from "../components/SearchBar"
-import AddStudentsForm, {type Student} from "../components/AddStudentsForm"
+import type { Student } from "../components/AddStudentsForm"
 import { studentList } from "../data/students"
 import { useEffect,useState } from "react"
 
 function Dashboard() {
-  const header_styling = "p-4 text-left"
+ 
   const [students, setStudents] = useState<Student[]>(()=>
   {
     const savedStudents = localStorage.getItem("students");
     return savedStudents ? JSON.parse(savedStudents)
     : studentList;
   });
-  const [searchTerm, setsearchTerm] = useState("");
-  const [editingStudent, setEditingStudent] = useState<Student | null>(null);
+  
 
   useEffect(() => {
     localStorage.setItem("students", JSON.stringify(students));
   }, [students]);
 
-  const filteredStudent = students.filter((student) => student.name.toLocaleLowerCase().includes(searchTerm.toLowerCase()));
+  
   const firstClassStudents = students.filter((student) => student.qualification === "First").length;
   const atRiskStudents = students.filter((student) => student.averageGrade < 40||student.attendance < 60).length;
   const topStudent = students.reduce((highest, student) => student.averageGrade > highest.averageGrade
@@ -31,7 +28,7 @@ function Dashboard() {
   Math.round(students.reduce(
   (total, student) => total + student.averageGrade,
   0
-)/ students.length)
+  )/ students.length)
   :0;
 
   const averageAttendance = students.length > 0 ?
@@ -42,78 +39,28 @@ function Dashboard() {
 
   const uniqueCourses = [...new Set (students.map((student) => student.course))]
 
-  const deleteStudent = (id:number) =>{
-    setStudents(students.filter((student) => student.id !== id));
-  }
+ 
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
 
       <main className="flex-1 p-8 ml-20">
-        <h1 className="text-3xl font-bold mb-6 align-top">Student Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-6 align-top text-center">Student Dashboard</h1>
 
         {/* Styling for the grid and cards */}
-        <section className="grid grid-cols-4 gap-5 my-6">
-        <SearchBar
-        searchTerm={searchTerm}
-        setSearchTerm={setsearchTerm} 
-        />
+        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 my-6">
+        
           <DashboardCard title = "Average Grade" value = {average_Grade.toString()}/>
           <DashboardCard title="Average Attendance" value= {averageAttendance.toString()} />
           <DashboardCard title="Total Students" value={students.length.toString()} />
-          <DashboardCard title="Unique Classifications" value= {uniqueCourses.length.toString()} />
+          <DashboardCard title="Unique Courses" value= {uniqueCourses.length.toString()} />
           <DashboardCard title= "First Class Students" value = {firstClassStudents.toString()}/>
-          <DashboardCard title = " At Risk Students" value = {atRiskStudents.toString()} />
-          <DashboardCard title = " Top Student" value = {topStudent.name.toString()} />
+          <DashboardCard title = "At Risk Students" value = {atRiskStudents.toString()} />
+          <DashboardCard title = "Top Student" value = {students.length > 0 ? topStudent.name.toString() : "N/A"} />
         </section>
-        <AddStudentsForm
-        students={students}
-        setStudents={setStudents}
-        editingStudent={editingStudent}
-        setEditingStudent={setEditingStudent}
         
-          />
 
-        {/*Styling and Placement for the table  */}
-      <table className="w-full rounded-xl overflow-hidden shadow-md">
-        <thead className="bg-gray-200">
-
-          <tr>            
-            <th className={`${header_styling}`}>ID</th>
-            <th className={`${header_styling}`}>Name</th>
-            <th className={`${header_styling}`}>Course</th>
-            <th className={`${header_styling}`}>Average Grade</th>
-            <th className={`${header_styling}`}>Qualification</th>
-            <th className={`${header_styling}`}>Attendance</th>
-            <th className= {`${header_styling}`}> Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {
-            filteredStudent.length > 0 ?(
-            filteredStudent.map((student) => (
-            <StudentRow
-            key={student.id}
-            id={student.id}
-            name={student.name}
-            course={student.course}
-            averageGrade={student.averageGrade}
-            qualification={student.qualification}
-            attendance={student.attendance}
-            deleteStudent={deleteStudent}
-            setEditingStudent={setEditingStudent}
-            />
-            ))) : (
-
-              <tr>
-                <td colSpan={8} className="py-6 text-center text-gray-500">
-                No Students Found
-                </td>
-              </tr>
-            )}
-        </tbody>
-      </table>
+       
       </main>
     </div>
   )
