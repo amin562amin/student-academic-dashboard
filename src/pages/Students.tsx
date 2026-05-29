@@ -1,9 +1,10 @@
-import Sidebar from "../components/Sidebar";
+import Layout from "../components/Layout";
 import SearchBar from "../components/SearchBar";
 import { studentList } from "../data/students";
 import AddStudentsForm,  {type Student} from "../components/AddStudentsForm";
 import StudentRow from "../components/StudentRow";
 import { useEffect, useState } from "react";
+
 
 export default function Students() {
   const header_styling = "p-4 text-left"
@@ -23,17 +24,17 @@ useEffect(() => {
   localStorage.setItem("students", JSON.stringify(students));
 }, [students]);
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
-      
-      <main className="flex-1 p-8 ml-20">
+    
+    <Layout>
       <h1 className="text-3xl font-bold mb-6 align-top text-center">Students</h1>
+
       <div className="mb-12">
       <SearchBar 
       searchTerm= {searchTerm}
       setSearchTerm={setSearchTerm}
       />
       </div>
+      
       <AddStudentsForm 
       students={students}
       setStudents={setStudents}
@@ -80,7 +81,6 @@ useEffect(() => {
             )}
         </tbody>
       </table>
-      </main>
-    </div>
+      </Layout>
   );
 }

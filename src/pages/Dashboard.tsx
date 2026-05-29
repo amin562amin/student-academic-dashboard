@@ -1,8 +1,10 @@
-import Sidebar from "../components/Sidebar"
+import Layout from "../components/Layout"
 import DashboardCard from "../components/DashboardCard"
 import type { Student } from "../components/AddStudentsForm"
 import { studentList } from "../data/students"
 import { useEffect,useState } from "react"
+
+
 
 function Dashboard() {
  
@@ -41,28 +43,24 @@ function Dashboard() {
 
  
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+    <Layout>
 
-      <main className="flex-1 p-8 ml-20">
-        <h1 className="text-3xl font-bold mb-6 align-top text-center">Student Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6 align-top text-center">Student Dashboard</h1>
 
-        {/* Styling for the grid and cards */}
-        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 my-6">
-        
-          <DashboardCard title = "Average Grade" value = {average_Grade.toString()}/>
-          <DashboardCard title="Average Attendance" value= {averageAttendance.toString()} />
-          <DashboardCard title="Total Students" value={students.length.toString()} />
-          <DashboardCard title="Unique Courses" value= {uniqueCourses.length.toString()} />
-          <DashboardCard title= "First Class Students" value = {firstClassStudents.toString()}/>
-          <DashboardCard title = "At Risk Students" value = {atRiskStudents.toString()} />
-          <DashboardCard title = "Top Student" value = {students.length > 0 ? topStudent.name.toString() : "N/A"} />
-        </section>
-        
-
-       
-      </main>
-    </div>
+      {/* Styling for the grid and cards */}
+      <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 my-6">      
+        <DashboardCard title = "Average Grade" value = {average_Grade.toString()}/>
+        <DashboardCard title="Average Attendance" value= {averageAttendance.toString()} />
+        <DashboardCard title="Total Students" value={students.length.toString()} />
+        <DashboardCard title="Unique Courses" value= {uniqueCourses.length.toString()} />
+        <DashboardCard title= "First Class Students" value = {firstClassStudents.toString()}/>
+        <DashboardCard title = "At Risk Students" value = {atRiskStudents.toString()} />
+        <DashboardCard title = "Top Student" value = {students.length > 0 ? topStudent.name.toString() : "N/A"}
+         />
+      </section>      
+    </Layout>
+    
+    
   )
 }
 

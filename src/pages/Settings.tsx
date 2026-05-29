@@ -1,12 +1,11 @@
-import Sidebar from "../components/Sidebar";
-
-
+import Layout from "../components/Layout";
 
 export default function Settings() {
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold">Settings</h1>
-      <Sidebar />
-    </div>
+    <Layout>
+      <h1 className="text-3xl font-bold text-center mb-6">
+        Settings
+      </h1>
+    </Layout>
   );
 }
