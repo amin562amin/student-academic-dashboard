@@ -1,25 +1,13 @@
 import Layout from "../components/Layout"
 import DashboardCard from "../components/DashboardCard"
-import type { Student } from "../components/AddStudentsForm"
-import { studentList } from "../data/students"
-import { useEffect,useState } from "react"
+import { UseStudents } from "../context/StudentContext";
+
 
 
 
 function Dashboard() {
- 
-  const [students, setStudents] = useState<Student[]>(()=>
-  {
-    const savedStudents = localStorage.getItem("students");
-    return savedStudents ? JSON.parse(savedStudents)
-    : studentList;
-  });
+ const {students} = UseStudents();
   
-
-  useEffect(() => {
-    localStorage.setItem("students", JSON.stringify(students));
-  }, [students]);
-
   
   const firstClassStudents = students.filter((student) => student.qualification === "First").length;
   const atRiskStudents = students.filter((student) => student.averageGrade < 40||student.attendance < 60).length;

@@ -1,28 +1,27 @@
 import Layout from "../components/Layout";
 import SearchBar from "../components/SearchBar";
-import { studentList } from "../data/students";
 import AddStudentsForm,  {type Student} from "../components/AddStudentsForm";
 import StudentRow from "../components/StudentRow";
-import { useEffect, useState } from "react";
+import { UseStudents } from "../context/StudentContext";
+import { useState } from "react";
+
+
 
 
 export default function Students() {
   const header_styling = "p-4 text-left"
   const [searchTerm, setSearchTerm] = useState("");
-  const [students, setStudents] = useState<Student[]>(() => {
-  const savedStudents = localStorage.getItem("students");
+  const {students, setStudents} = UseStudents();
+  const [editingStudent, setEditingStudent] = useState<Student | null>(null);
+  const filteredStudent = students.filter((student) =>
+  student.name.toLocaleLowerCase().includes(searchTerm.toLowerCase()));
 
-  return savedStudents ? JSON.parse(savedStudents) : studentList;
-});
-
-const [editingStudent, setEditingStudent] = useState<Student | null>(null);
-const filteredStudent = students.filter((student) => student.name.toLocaleLowerCase().includes(searchTerm.toLowerCase()));
-const deleteStudent = (id:number) =>{
+  
+  
+  const deleteStudent = (id:number) =>{
     setStudents(students.filter((student) => student.id !== id));
   }
-useEffect(() => {
-  localStorage.setItem("students", JSON.stringify(students));
-}, [students]);
+
   return (
     
     <Layout>
