@@ -8,41 +8,56 @@ export default function Analytics() {
 
   const highestGrade = students.length > 0 ? Math.max(...students.map((student) => student.averageGrade))  :0;
 
-  const lowestGrade =
+    const lowestGrade =
     students.length > 0
       ? Math.min(...students.map((student) => student.averageGrade))
       : 0;
 
-  const bestAttendance =
+    const bestAttendance =
     students.length > 0
       ? Math.max(...students.map((student) => student.attendance))
       : 0;
 
-  const worstAttendance =
+    const worstAttendance =
     students.length > 0
       ? Math.min(...students.map((student) => student.attendance))
       : 0;
 
-  const firstCount = students.filter(
+    const firstCount = students.filter(
     (students) => students.qualification === "First"
-  ).length;
+    ).length;
 
-  const twoOneCount = students.filter(
-  (student) => student.qualification === "2:1"
-).length;
+    const twoOneCount = students.filter(
+    (student) => student.qualification === "2:1"
+    ).length;
 
-const twoTwoCount = students.filter(
-  (student) => student.qualification === "2:2"
-).length;
+    const twoTwoCount = students.filter(
+    (student) => student.qualification === "2:2"
+    ).length;
 
-const thirdCount = students.filter(
-  (student) => student.qualification === "Third"
-).length;
+    const thirdCount = students.filter(
+    (student) => student.qualification === "Third"
+    ).length;
 
-const failCount = students.filter(
-  (student) => student.qualification === "Fail"
-).length;
 
+
+    const failCount = students.filter(
+    (student) => student.qualification === "Fail"
+    ).length;
+
+    const lowGradeStudents = students.filter(
+      (student) => student.averageGrade < 40
+    );
+
+    const lowAttendanceStudents = students.filter(
+    (student) => student.attendance < 60
+    );
+
+    const highRiskStudents = students.filter(
+    (student) =>
+    student.averageGrade < 40 &&
+    student.attendance < 60
+    );
 
 
   return (
@@ -65,7 +80,7 @@ const failCount = students.filter(
 
       <h2 className="text-3xl font-bold text-center">Grade Breakdown</h2>
       <section>
-        <table className="w-full rounded-xl shadow-md overflow-hidden">
+        <table className="w-full rounded-xl shadow-md overflow-hidden mb-12 mt-10">
           <thead className="bg-gray-200">
             <tr >
               <th className={`${header_styling}`}>First</th>
@@ -94,6 +109,47 @@ const failCount = students.filter(
             </tbody>
           
         </table>
+      </section>
+
+      <h2 className="text-2xl font-semibold mt-10 mb-4 text-center">
+        Risk Breakdown
+      </h2>
+
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="bg-white rounded-xl shadow-md p-6">
+        <h3 className="text-xl font-semibold mb-4">Low Grade</h3>
+        {lowGradeStudents.length > 0 ? (lowGradeStudents.map((student) =>(
+        <p key={student.id} className="py-2 border-b">
+          {student.name} - {student.averageGrade}%
+        </p>))):(<p className="text-gray-500">No students found</p>)}
+        </div>
+        <div className="bg-white rounded-xl shadow-md p-6">
+  <h3 className="text-xl font-semibold mb-4">Low Attendance</h3>
+
+  {lowAttendanceStudents.length > 0 ? (
+    lowAttendanceStudents.map((student) => (
+      <p key={student.id} className="py-2 border-b">
+        {student.name} - {student.attendance}%
+      </p>
+    ))
+  ) : (
+    <p className="text-gray-500">No students found</p>
+  )}
+</div>
+
+<div className="bg-white rounded-xl shadow-md p-6">
+  <h3 className="text-xl font-semibold mb-4">High Risk</h3>
+
+  {highRiskStudents.length > 0 ? (
+    highRiskStudents.map((student) => (
+      <p key={student.id} className="py-2 border-b">
+        {student.name} - {student.averageGrade}% grade, {student.attendance}% attendance
+      </p>
+    ))
+  ) : (
+    <p className="text-gray-500">No students found</p>
+  )}
+</div>
       </section>
     </Layout>
   );
