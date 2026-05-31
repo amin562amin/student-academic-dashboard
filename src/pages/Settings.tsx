@@ -4,6 +4,7 @@ import { studentList } from "../data/students";
 export default function Settings() {
   const {students, setStudents} = UseStudents();
 
+  const totalCourses = new Set(students.map(student => student.course)).size
   function resetStudents(){
     
     const listDecision = window.confirm("Do you want to reset the student list ?")
