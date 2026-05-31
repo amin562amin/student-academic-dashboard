@@ -11,9 +11,9 @@ function Dashboard() {
   
   const firstClassStudents = students.filter((student) => student.qualification === "First").length;
   const atRiskStudents = students.filter((student) => student.averageGrade < 40||student.attendance < 60).length;
-  const topStudent = students.reduce((highest, student) => student.averageGrade > highest.averageGrade
+  const topStudent = students.length > 0 ? students.reduce((highest, student) => student.averageGrade > highest.averageGrade
   ? student : highest
-  )
+  ): null
   const average_Grade = students.length > 0 ?
   Math.round(students.reduce(
   (total, student) => total + student.averageGrade,
