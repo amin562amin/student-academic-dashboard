@@ -64,6 +64,24 @@ export default function Analytics() {
       return accumulator;
     }, {} as Record<string, number>)
 
+    const courseAverages = students.reduce((accumulator, student) => {
+      {if (!accumulator[student.course]){
+        accumulator[student.course] = {
+          totalGrades: student.averageGrade,
+          studentCount: 1,
+        };
+        
+      }else{
+        accumulator[student.course].totalGrades += student.averageGrade;
+        accumulator[student.course].studentCount += 1;
+      }
+
+    
+    } 
+
+
+    return accumulator},
+    {} as Record<string, {totalGrades:number ,studentCount: number}>);
   return (
     <Layout>
       <h1 className="text-3xl font-bold text-center mb-6">
@@ -156,14 +174,27 @@ export default function Analytics() {
 </div>
 
 <div className="bg-white rounded-xl shadow-md p-6">
-<h4 className="text-xl font-semibold mb-4">Course Breakdown</h4>
 
-  {(Object.entries(courseCounts)).map(([course,count]) =>(
-    <p className="py-2 border-b">
-      {course} - {count} {count === 1 ? "student" : "students"}
-    </p>
-  ))}
+  <h4 className="text-xl font-semibold mb-4">Course Breakdown</h4>
+  <div>
+    {(Object.entries(courseCounts)).map(([course,count]) =>(
+      <p className="py-2 border-b">
+        {course} - {count} {count === 1 ? "student" : "students"}
+      </p>
+    ))}
+  </div>
+</div>
 
+<div className="bg-white rounded-xl shadow-md p-6">
+
+  <h4 className="text-xl font-semibold mb-4">Course Average Grade</h4>
+  <div>
+    {(Object.entries(courseAverages)).map(([course,{totalGrades,studentCount}]) =>(
+      <p key= {course} className="py-2 border-b">
+        {course} - {(totalGrades / studentCount).toFixed(1)}% 
+      </p>
+    ))}
+  </div>
 </div>
       </section>
     </Layout>
