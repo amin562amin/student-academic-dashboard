@@ -59,6 +59,10 @@ export default function Analytics() {
     student.attendance < 60
     );
 
+    const courseCounts = students.reduce((accumulator, student) => {
+      accumulator[student.course] = (accumulator[student.course] || 0) + 1;
+      return accumulator;
+    }, {} as Record<string, number>)
 
   return (
     <Layout>
@@ -149,6 +153,17 @@ export default function Analytics() {
   ) : (
     <p className="text-gray-500">No students found</p>
   )}
+</div>
+
+<div className="bg-white rounded-xl shadow-md p-6">
+<h4 className="text-xl font-semibold mb-4">Course Breakdown</h4>
+
+  {(Object.entries(courseCounts)).map(([course,count]) =>(
+    <p className="py-2 border-b">
+      {course} - {count} {count === 1 ? "student" : "students"}
+    </p>
+  ))}
+
 </div>
       </section>
     </Layout>
