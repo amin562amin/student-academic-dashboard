@@ -1,3 +1,4 @@
+
 import { useEffect, useState, type SetStateAction } from "react"
 
 
@@ -31,6 +32,12 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
     const [attendance, setAttendance] = useState("");
     const gradeValue = Number(averageGrade)
 
+    const clearForm = () => {
+        setName("");
+        setCourse("");
+        setaverageGrade("");       
+        setAttendance("");
+    }
     // Code runs when something changes and only if someones details are being edited 
     // This effect is only reran when editingStudent changes
     useEffect(() => {
@@ -60,6 +67,25 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
         {
             return;
         }
+
+        const grade = Number(averageGrade);
+        const attendanceValue = Number(attendance);
+
+
+    if (grade < 0 || grade > 100) {
+        alert("Grade must be between 0 and 100");
+        return;
+    }
+
+    if (attendanceValue < 0 || attendanceValue > 100) {
+        alert("Attendance must be between 0 and 100");
+        return;
+    }
+
+
+
+
+
         //  object that represents final student information
         const newStudent: Student = {
             //  Keeping same student id 
@@ -67,8 +93,8 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
             name,
             course,
             qualification: getQualification(gradeValue),
-            averageGrade: Number(averageGrade),
-            attendance: Number(attendance),
+            averageGrade: grade,
+            attendance: attendanceValue,
         };
 
         if (editingStudent){
@@ -80,14 +106,8 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
             // No one is being edited any more 
             setEditingStudent(null);
         }else {
-            setStudents([... students, newStudent]);
-        
-
         setStudents([...students, newStudent]);
-        setName("");
-        setCourse("");
-        setaverageGrade("");       
-        setAttendance("");
+        clearForm();
         console.log(newStudent);
         }
     }
@@ -95,10 +115,7 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
     const handleCancelEdit = () => {
         setEditingStudent(null);
 
-        setName("");
-        setCourse("");
-        setaverageGrade("");
-        setAttendance("");
+      clearForm();
     }
 
     return( 

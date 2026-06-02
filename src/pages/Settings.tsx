@@ -1,5 +1,4 @@
 import Layout from "../components/Layout";
-import DashboardCard from "../components/DashboardCard";
 import { UseStudents } from "../context/StudentContext";
 import { studentList } from "../data/students";
 export default function Settings() {
@@ -14,6 +13,13 @@ export default function Settings() {
     }
 
    
+  }
+
+  function clearAllStudents(){
+    const dataDecision = window.confirm("Do you want to clear all student data ?")
+    if(dataDecision){
+      setStudents([]);
+    }
   }
   return (
     <Layout>
@@ -32,6 +38,13 @@ export default function Settings() {
     className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
   >
     Reset Student Data
+  </button>
+
+  <button
+    onClick={clearAllStudents}
+    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+  >
+    Clear all student data
   </button>
 </div>
 

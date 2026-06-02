@@ -56,7 +56,8 @@ const currentStudent: Student = {
 
     <button
       className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition"
-      onClick={() => deleteStudent(id)}
+      onClick={() => {if( window.confirm("Are you sure you want to delete this student"))
+        {deleteStudent(id)}}}
     >
       Delete
     </button>

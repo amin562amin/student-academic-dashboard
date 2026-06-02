@@ -177,7 +177,8 @@ export default function Analytics() {
 
   <h4 className="text-xl font-semibold mb-4">Course Breakdown</h4>
   <div>
-    {(Object.entries(courseCounts)).map(([course,count]) =>(
+    {students.length === 0 ? (<p className="text-gray-500">No course data available</p>)
+     : (Object.entries(courseCounts)).map(([course,count]) =>(
       <p className="py-2 border-b">
         {course} - {count} {count === 1 ? "student" : "students"}
       </p>
@@ -189,7 +190,8 @@ export default function Analytics() {
 
   <h4 className="text-xl font-semibold mb-4">Course Average Grade</h4>
   <div>
-    {(Object.entries(courseAverages)).map(([course,{totalGrades,studentCount}]) =>(
+    {students.length === 0 ? (<p className="text-gray-500">No grade data available</p>)
+     : (Object.entries(courseAverages)).map(([course,{totalGrades,studentCount}]) =>(
       <p key= {course} className="py-2 border-b">
         {course} - {(totalGrades / studentCount).toFixed(1)}% 
       </p>
