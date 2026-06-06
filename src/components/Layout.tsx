@@ -1,17 +1,16 @@
 import Sidebar from "./Sidebar"
+import { Outlet } from "react-router-dom";
 
-type LayoutProps = {
-    children: React.ReactNode
-};
 
-function Layout({children}: LayoutProps){
+function Layout(){
 
     return(
     <div className="flex min-h-screen bg-gray-100">
         <Sidebar />
 
         <main className="flex-1 p-8 ml-20">
-            {children}
+            {/* Put the current route's page within this tag */}
+            <Outlet />
         </main>
     </div>
     )

@@ -1,4 +1,4 @@
-import Layout from "../components/Layout";
+
 import { UseStudents } from "../context/StudentContext";
 import { studentList } from "../data/students";
 export default function Settings() {
@@ -22,7 +22,7 @@ export default function Settings() {
     }
   }
   return (
-    <Layout>
+    <>
       <h1 className="text-3xl font-bold text-center mb-6">
         Settings
       </h1>
@@ -72,6 +72,6 @@ export default function Settings() {
    
   </div>
 </div>
-    </Layout>
+    </>
   );
 }

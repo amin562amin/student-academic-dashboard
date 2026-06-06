@@ -1,4 +1,3 @@
-import Layout from "../components/Layout";
 import SearchBar from "../components/SearchBar";
 import AddStudentsForm,  {type Student} from "../components/AddStudentsForm";
 import StudentRow from "../components/StudentRow";
@@ -24,7 +23,7 @@ export default function Students() {
 
   return (
     
-    <Layout>
+    <>
       <h1 className="text-3xl font-bold mb-6 align-top text-center">Students</h1>
 
       <div className="mb-12">
@@ -80,6 +79,6 @@ export default function Students() {
             )}
         </tbody>
       </table>
-      </Layout>
+      </>
   );
 }

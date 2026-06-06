@@ -1,4 +1,4 @@
-import Layout from "../components/Layout";
+
 import DashboardCard from "../components/DashboardCard";
 import { UseStudents } from "../context/StudentContext";
 
@@ -83,7 +83,7 @@ export default function Analytics() {
     return accumulator},
     {} as Record<string, {totalGrades:number ,studentCount: number}>);
   return (
-    <Layout>
+    <>
       <h1 className="text-3xl font-bold text-center mb-6">
         Analytics
       </h1>
@@ -199,6 +199,6 @@ export default function Analytics() {
   </div>
 </div>
       </section>
-    </Layout>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import Layout from "../components/Layout"
+
 import DashboardCard from "../components/DashboardCard"
 import { UseStudents } from "../context/StudentContext";
 
@@ -31,7 +31,7 @@ function Dashboard() {
 
  
   return (
-    <Layout>
+    <>
 
       <h1 className="text-3xl font-bold mb-6 align-top text-center">Student Dashboard</h1>
 
@@ -46,7 +46,7 @@ function Dashboard() {
         <DashboardCard title = "Top Student" value = {students.length > 0 ? topStudent.name.toString() : "N/A"}
          />
       </section>      
-    </Layout>
+    </>
     
     
   )

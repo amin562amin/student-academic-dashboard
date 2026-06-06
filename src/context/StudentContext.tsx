@@ -1,6 +1,9 @@
+// This context manages React state for the app
+
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { studentList } from "../data/students";
 import type { Student } from "../components/AddStudentsForm";
+import { studentServices } from "../services/studentService";
 
 // Prop containing individual Student and their state
 type StudentContextType = {
@@ -19,13 +22,13 @@ type StudentProviderProps = {
 export function StudentProvider({children}: StudentProviderProps){
     const [students, setStudents] = useState<Student[]>(() =>{
 
-        const savedStudents = localStorage.getItem("students");
-        return savedStudents ? JSON.parse(savedStudents) : studentList;
+        const savedStudents = studentServices.getStudents();
+        return savedStudents.length > 0  ? savedStudents : studentList;
     });
 
      useEffect(() => {
-    localStorage.setItem("students", JSON.stringify(students));
-  }, [students]);
+    studentServices.saveStudents(students);
+}, [students]);
 
     return(
         // Putting students & setStudents inside the StudentContext Context
