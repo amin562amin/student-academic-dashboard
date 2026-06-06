@@ -1,8 +1,10 @@
 import SearchBar from "../components/SearchBar";
 import AddStudentsForm,  {type Student} from "../components/AddStudentsForm";
 import StudentRow from "../components/StudentRow";
+import DeleteModal from "../components/DeleteModal";
 import { UseStudents } from "../context/StudentContext";
 import { useState } from "react";
+
 
 
 
@@ -14,12 +16,12 @@ export default function Students() {
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const filteredStudent = students.filter((student) =>
   student.name.toLocaleLowerCase().includes(searchTerm.toLowerCase()));
-
+  const [studentToDelete, setStudentToDelete] = useState<Student | null>(null);
   
   
-  const deleteStudent = (id:number) =>{
-    setStudents(students.filter((student) => student.id !== id));
-  }
+   const deleteStudent = (id:number) =>{
+     setStudents(students.filter((student) => student.id !== id));
+   }
 
   return (
     
@@ -66,7 +68,7 @@ export default function Students() {
             averageGrade={student.averageGrade}
             qualification={student.qualification}
             attendance={student.attendance}
-            deleteStudent={deleteStudent}
+            deleteStudent={() => setStudentToDelete(student)}
             setEditingStudent={setEditingStudent}
             />
             ))) : (
@@ -79,6 +81,18 @@ export default function Students() {
             )}
         </tbody>
       </table>
-      </>
+      
+
+      {studentToDelete && (
+        <DeleteModal
+        studentName={studentToDelete.name}
+        onCancel={() => setStudentToDelete(null)}
+        onConfirm={() => {
+          deleteStudent(studentToDelete.id);
+          setStudentToDelete(null); 
+        }}
+        />
+      )}
+    </>
   );
 }
