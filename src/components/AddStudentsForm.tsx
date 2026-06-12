@@ -1,5 +1,7 @@
 
 import { useEffect, useState, type SetStateAction } from "react"
+import { toast } from "react-toastify";
+
 
 
 type StudentFormProps = {
@@ -65,6 +67,7 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
         // if any field is empty, function stops
         if (!name || !course || !averageGrade || !attendance) 
         {
+            toast.error("Please complete all fields");
             return;
         }
 
@@ -73,12 +76,12 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
 
 
     if (grade < 0 || grade > 100) {
-        alert("Grade must be between 0 and 100");
+        toast.error("Grade must be between 0 and 100");
         return;
     }
 
     if (attendanceValue < 0 || attendanceValue > 100) {
-        alert("Attendance must be between 0 and 100");
+        toast.error("Attendance must be between 0 and 100");
         return;
     }
 
@@ -105,8 +108,10 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
             );
             // No one is being edited any more 
             setEditingStudent(null);
+            toast.success("Student updated successfully");
         }else {
         setStudents([...students, newStudent]);
+        toast.success("Student added succesfully");
         clearForm();
         console.log(newStudent);
         }
@@ -155,7 +160,8 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
                 value={attendance}
                 onChange={(e) => setAttendance(e.target.value)} /> 
 
-                <button onClick={() => handleSubmitStudent()}
+                <button onClick={() => {
+                    handleSubmitStudent()}}
                 type="button"
                 className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
                 >
