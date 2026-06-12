@@ -75,7 +75,9 @@ export default function Students() {
 
               <tr>
                 <td colSpan={8} className="py-6 text-center text-gray-500">
-                No Students Found. Add a student using the form above
+                 {students.length === 0
+                    ? "No Students Found. Add a student using the form above"
+                    : "No matching students found. Try a different search term"}
                 </td>
               </tr>
             )}
