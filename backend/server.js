@@ -41,11 +41,53 @@ app.post("/api/students", (req, res) => {
 app.delete("/api/students/:id", (req, res) => {
   const id = Number(req.params.id);
 
+  // ensuring that the id specified by the user exists within a location in the array
+  const index = studentList.findIndex(
+    student =>  student.id === id);
+
+  // Check if the student exists
+  if (index === -1 )
+  {
+    return res.status(404).json({
+      message: `Student wasn't found`
+    });
+  }
+
+  studentList.splice(index,1);
+
   res.json({
-    message: `Deleting student ${id}`
+    message: `Deleted student ${id}`,
+    students: studentList,
   });
 });
 
+app.put("/api/students/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  // 
+  const index = studentList.findIndex(
+    student => student.id === id);
+
+    // check if the student exists
+    if (index === -1)
+    {
+      return res.status(404).json({
+        message: `Student wasn't found`
+      });
+    }
+    
+    const updatedStudent = {
+      ...req.body,
+      id:id,
+    };
+
+    studentList[index] = updatedStudent;
+    res.json({
+      message: `Student ${id} updated`,
+      student: updatedStudent
+    });
+
+}) 
 
 // Express starts listening for requests
 app.listen(5000, () => {
