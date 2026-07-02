@@ -2,7 +2,7 @@
 // also allows front end to talk to backend
 const express = require("express");
 const cors = require("cors");
-
+const db = require("./database/db");
 
 
 // creating the backend application
