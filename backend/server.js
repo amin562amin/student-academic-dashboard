@@ -24,18 +24,43 @@ app.get("/api/test", (req, res) => {
 const studentList = require("./data/students");
 
 app.get("/api/students", (req,res) => {
-    res.json(studentList);
+    db.all("SELECT * FROM students", [], (err, rows) => {
+      if (err){
+        return res.status(500).json({
+          message: "Failed to fetch students",
+          error: err.message,
+        });
+      }
+
+      res.json(rows)
+    });
 });
 
 app.post("/api/students", (req, res) => {
-  const newStudent = req.body;
+  const {name,course,qualification,averageGrade, attendance} = req.body;
 
-  studentList.push(newStudent);
+  const sql = `INSERT INTO students
+  (name, course, qualification, averageGrade, attendance)
+  VALUES (?, ?, ?, ?, ?)
+  `;
 
-  res.status(201).json({
-    message: "Student added",
-    student: newStudent,
+  db.run(
+    sql,
+    [name, course, qualification, averageGrade, attendance],
+  function (err) {
+    if (err){
+      return res.status(500).json({
+        message: "Failed to add student",
+        error: err.message,
+      });
+    }
+
+    res.status(201).json({
+      message: "Student added",
+      id: this.lastID,
+    });
   });
+ 
 });
 
 app.delete("/api/students/:id", (req, res) => {
