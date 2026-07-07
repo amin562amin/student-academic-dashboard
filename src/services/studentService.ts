@@ -4,13 +4,15 @@ import type { Student } from "../components/AddStudentsForm";
 const STORAGE_KEY = "students"
 
 export const studentServices = {
-    getStudents(): Student[] {
-        const savedStudents = localStorage.getItem(STORAGE_KEY);
+    async getStudents(): Promise<Student[]> {
+        
+        const response = await fetch(
+            "http://localhost:5000/api/students"
+        );
 
-        if (!savedStudents){
-            return [];
-        }
-        return JSON.parse(savedStudents);
+        const students = await response.json();
+
+        return students;
     },
 
     saveStudents(students: Student[]): void {

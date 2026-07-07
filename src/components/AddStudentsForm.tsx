@@ -63,7 +63,7 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
         return "Fail";
     };
 
-    const handleSubmitStudent = () => {
+    const handleSubmitStudent = async () => {
         // if any field is empty, function stops
         if (!name || !course || !averageGrade || !attendance) 
         {
@@ -110,10 +110,30 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
             setEditingStudent(null);
             toast.success("Student updated successfully");
         }else {
-        setStudents([...students, newStudent]);
+            const response = await fetch("http://localhost:5000/api/students",{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: newStudent.name,
+                    course: newStudent.course,
+                    qualification: newStudent.qualification,
+                    averageGrade: newStudent.attendance,
+                    attendance: newStudent.attendance,
+                }),
+            });
+
+            const data = await response.json();
+
+            const studentWithDatabaseId: Student = {
+                ...newStudent,
+                id: data.id,
+            };
+    
+        setStudents([...students, studentWithDatabaseId]);
         toast.success("Student added succesfully");
         clearForm();
-        console.log(newStudent);
         }
     }
 
