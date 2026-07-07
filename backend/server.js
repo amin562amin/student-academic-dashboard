@@ -66,24 +66,30 @@ app.post("/api/students", (req, res) => {
 app.delete("/api/students/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  // ensuring that the id specified by the user exists within a location in the array
-  const index = studentList.findIndex(
-    student =>  student.id === id);
+  const sql = `DELETE FROM students
+  WHERE id = ?`;
+  db.run(
+    sql,
+    [id],
+    function (err){
+      if(err){
+        return res.status(500).json({
+          message: "Failed to delete student",
+          error: err.message,
+        });
+      }
 
-  // Check if the student exists
-  if (index === -1 )
-  {
-    return res.status(404).json({
-      message: `Student wasn't found`
+      if(this.changes === 0){
+        return res.status(404).json({
+          message: "Student wasn't found",
+        });
+      }
+
+      res.json({
+        message: `Student ${id} deleted`,
+      });
     });
-  }
-
-  studentList.splice(index,1);
-
-  res.json({
-    message: `Deleted student ${id}`,
-    students: studentList,
-  });
+ 
 });
 
 app.put("/api/students/:id", (req, res) => {
