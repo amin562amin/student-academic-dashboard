@@ -65,7 +65,7 @@ app.post("/api/students", (req, res) => {
 
 app.delete("/api/students/:id", (req, res) => {
   const id = Number(req.params.id);
-
+  const {name,course,qualification,averageGrade, attendance} = req.body;
   const sql = `DELETE FROM students
   WHERE id = ?`;
   db.run(
@@ -94,29 +94,37 @@ app.delete("/api/students/:id", (req, res) => {
 
 app.put("/api/students/:id", (req, res) => {
   const id = Number(req.params.id);
+  const {name,course,qualification,averageGrade, attendance} = req.body;
+  const sql = `UPDATE students
+  SET name = ?,
+  course = ?,
+  qualification = ?,
+  averageGrade = ?,
+  attendance = ?
+  WHERE id == ?` 
 
-  // 
-  const index = studentList.findIndex(
-    student => student.id === id);
+  db.run(
+    sql,
+    [name, course, qualification, averageGrade, attendance, id],
+    function(err){
+      if(err){
+        return res.status(500).json({
+          message: "Failed to edit student",
+          error: err.message
+        });
+      }
 
-    // check if the student exists
-    if (index === -1)
-    {
-      return res.status(404).json({
-        message: `Student wasn't found`
+      if(this.changes === 0){
+        return res.status(404).json({
+          message: "Student wasn't found",
+        });
+      }
+
+      res.json({
+        message: `Student ${id} has now been updated`,
       });
-    }
-    
-    const updatedStudent = {
-      ...req.body,
-      id:id,
-    };
-
-    studentList[index] = updatedStudent;
-    res.json({
-      message: `Student ${id} updated`,
-      student: updatedStudent
     });
+ 
 
 }) 
 
