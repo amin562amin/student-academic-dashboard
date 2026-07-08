@@ -65,7 +65,7 @@ app.post("/api/students", (req, res) => {
 
 app.delete("/api/students/:id", (req, res) => {
   const id = Number(req.params.id);
-  const {name,course,qualification,averageGrade, attendance} = req.body;
+  // const {name,course,qualification,averageGrade, attendance} = req.body;
   const sql = `DELETE FROM students
   WHERE id = ?`;
   db.run(

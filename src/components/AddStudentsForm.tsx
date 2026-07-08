@@ -45,7 +45,7 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
     useEffect(() => {
         if (editingStudent)
         {
-
+           
             setName(editingStudent.name);
             setCourse(editingStudent.course);
             setaverageGrade(editingStudent.averageGrade.toString());
@@ -101,6 +101,23 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
         };
 
         if (editingStudent){
+
+             const response = await fetch(
+                `http://localhost:5000/api/students/${editingStudent.id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newStudent),
+                }
+            );
+
+            if (!response.ok){
+                throw new Error("Failed to update student");
+            }
+
+
             setStudents(
                 students.map((student) =>
                     student.id === editingStudent.id ? newStudent: student
@@ -108,6 +125,7 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
             );
             // No one is being edited any more 
             setEditingStudent(null);
+            clearForm();
             toast.success("Student updated successfully");
         }else {
             const response = await fetch("http://localhost:5000/api/students",{
@@ -119,7 +137,7 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
                     name: newStudent.name,
                     course: newStudent.course,
                     qualification: newStudent.qualification,
-                    averageGrade: newStudent.attendance,
+                    averageGrade: newStudent.averageGrade,
                     attendance: newStudent.attendance,
                 }),
             });

@@ -9,6 +9,7 @@ import { useState } from "react";
 
 
 
+
 export default function Students() {
   const header_styling = "p-4 text-left"
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,10 +20,18 @@ export default function Students() {
   const [studentToDelete, setStudentToDelete] = useState<Student | null>(null);
   
   
-   const deleteStudent = (id:number) =>{
+  
+   const deleteStudent = async (id:number) =>{
+    const response = await fetch(`http://localhost:5000/api/students/${id}`,{
+    method: "DELETE",
+   })
+   if(!response.ok){
+    throw new Error("Failed to delete student");
+   }
      setStudents(students.filter((student) => student.id !== id));
    }
 
+   
   return (
     
     <>
@@ -89,8 +98,8 @@ export default function Students() {
         <DeleteModal
         studentName={studentToDelete.name}
         onCancel={() => setStudentToDelete(null)}
-        onConfirm={() => {
-          deleteStudent(studentToDelete.id);
+        onConfirm={async () => {
+          await deleteStudent(studentToDelete.id);
           setStudentToDelete(null); 
         }}
         />
