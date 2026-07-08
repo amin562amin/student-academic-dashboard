@@ -1,7 +1,7 @@
-// This service handles where the data is saved/lodaded from 
+// This service handles communication with the student API
 import type { Student } from "../components/AddStudentsForm";
 
-const STORAGE_KEY = "students"
+
 
 export const studentServices = {
     async getStudents(): Promise<Student[]> {
@@ -15,10 +15,15 @@ export const studentServices = {
         return students;
     },
 
-    saveStudents(students: Student[]): void {
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(students)
-        )
-    }
+    // Talk to the API and make sure the database deleteion succeeds
+    async deleteStudent(id: number){
+    const response = await fetch(`http://localhost:5000/api/students/${id}`,{
+    method: "DELETE",
+   })
+   if(!response.ok){
+    throw new Error("Failed to delete student");
+   }
+     
+   }
+    
 };

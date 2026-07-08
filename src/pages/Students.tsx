@@ -4,7 +4,7 @@ import StudentRow from "../components/StudentRow";
 import DeleteModal from "../components/DeleteModal";
 import { UseStudents } from "../context/StudentContext";
 import { useState } from "react";
-
+import { studentServices } from "../services/studentService";
 
 
 
@@ -21,15 +21,13 @@ export default function Students() {
   
   
   
-   const deleteStudent = async (id:number) =>{
-    const response = await fetch(`http://localhost:5000/api/students/${id}`,{
-    method: "DELETE",
-   })
-   if(!response.ok){
-    throw new Error("Failed to delete student");
-   }
-     setStudents(students.filter((student) => student.id !== id));
-   }
+   const deleteStudent = async (id: number) => {
+  await studentServices.deleteStudent(id);
+
+  setStudents(
+    students.filter((student) => student.id !== id)
+  );
+};
 
    
   return (
