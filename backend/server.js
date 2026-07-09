@@ -21,7 +21,7 @@ app.get("/api/test", (req, res) => {
   });
 });
 
-const studentList = require("./data/students");
+
 
 app.get("/api/students", (req,res) => {
     db.all("SELECT * FROM students", [], (err, rows) => {

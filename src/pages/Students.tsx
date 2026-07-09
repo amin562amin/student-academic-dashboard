@@ -5,7 +5,7 @@ import DeleteModal from "../components/DeleteModal";
 import { UseStudents } from "../context/StudentContext";
 import { useState } from "react";
 import { studentServices } from "../services/studentService";
-
+import { toast } from "react-toastify";
 
 
 
@@ -21,12 +21,17 @@ export default function Students() {
   
   
   
-   const deleteStudent = async (id: number) => {
+   const deleteStudent = async (id: number) =>
+     {try{
   await studentServices.deleteStudent(id);
 
   setStudents(
     students.filter((student) => student.id !== id)
   );
+}catch 
+  {
+  toast.error("Failed to delete student");
+  }
 };
 
    

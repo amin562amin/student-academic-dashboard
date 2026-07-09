@@ -88,7 +88,8 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
 
 
 
-
+        try
+        {
         //  object that represents final student information
         const newStudent: Student = {
             //  Keeping same student id 
@@ -128,7 +129,9 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
         toast.success("Student added succesfully");
         clearForm();
         }
-    }
+    }catch{
+        toast.error("Something went wrong. Please try again.")
+    };}
 
     const handleCancelEdit = () => {
         setEditingStudent(null);
