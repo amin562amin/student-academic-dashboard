@@ -24,6 +24,23 @@ export const studentServices = {
     throw new Error("Failed to delete student");
    }
      
-   }
+   },
+
+    async addStudent(student:Student){
+    const response = await fetch(`http://localhost:5000/api/students`,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(student),
+    });
+    if(!response.ok){
+        throw new Error("Failed to add student");
+    }
+    const data = await response.json();
+
+
+    return data.id;
+   },
     
 };

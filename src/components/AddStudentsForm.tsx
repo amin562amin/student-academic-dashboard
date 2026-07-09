@@ -1,6 +1,6 @@
-
 import { useEffect, useState, type SetStateAction } from "react"
 import { toast } from "react-toastify";
+import { studentServices } from "../services/studentService";
 
 
 
@@ -128,25 +128,14 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
             clearForm();
             toast.success("Student updated successfully");
         }else {
-            const response = await fetch("http://localhost:5000/api/students",{
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: newStudent.name,
-                    course: newStudent.course,
-                    qualification: newStudent.qualification,
-                    averageGrade: newStudent.averageGrade,
-                    attendance: newStudent.attendance,
-                }),
-            });
-
-            const data = await response.json();
+           
+            // Calling StudentServices prompt to handle API/POST/database communication 
+            // Also returns SQLiteID
+            const studentID = await studentServices.addStudent(newStudent);
 
             const studentWithDatabaseId: Student = {
                 ...newStudent,
-                id: data.id,
+                id: studentID,
             };
     
         setStudents([...students, studentWithDatabaseId]);
