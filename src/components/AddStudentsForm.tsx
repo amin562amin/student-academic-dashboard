@@ -102,21 +102,7 @@ function AddStudentsForm({ students, setStudents,editingStudent, setEditingStude
 
         if (editingStudent){
 
-             const response = await fetch(
-                `http://localhost:5000/api/students/${editingStudent.id}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(newStudent),
-                }
-            );
-
-            if (!response.ok){
-                throw new Error("Failed to update student");
-            }
-
+            await studentServices.updateStudent(newStudent);
 
             setStudents(
                 students.map((student) =>

@@ -26,7 +26,7 @@ export const studentServices = {
      
    },
 
-    async addStudent(student:Student){
+    async addStudent(student: Student){
     const response = await fetch(`http://localhost:5000/api/students`,{
         method: "POST",
         headers: {
@@ -42,5 +42,20 @@ export const studentServices = {
 
     return data.id;
    },
+
+   async updateStudent(student:Student){
+    const response = await fetch(`http://localhost:5000/api/students/${student.id}`,{
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        } ,
+        body: JSON.stringify(student),
+    });
+    if(!response.ok){
+        throw new Error("Failed to update student");
+    }
+
+   
+   }
     
 };
