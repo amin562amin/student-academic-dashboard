@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 export default function Students() {
   const header_styling = "p-4 text-left"
   const [searchTerm, setSearchTerm] = useState("");
-  const {students, setStudents} = UseStudents();
+  const {students, setStudents, loading, error } = UseStudents();
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const filteredStudent = students.filter((student) =>
   student.name.toLocaleLowerCase().includes(searchTerm.toLowerCase()));
@@ -34,7 +34,13 @@ export default function Students() {
   }
 };
 
-   
+   if (loading){ // show loading message
+    return <p>Loading students...</p>;
+   }
+
+   if (error){ // loading is false + error exists 
+    return <p>{error}</p>;
+   }
   return (
     
     <>
