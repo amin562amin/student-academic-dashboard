@@ -1,75 +1,39 @@
-# React + TypeScript + Vite
+# Student Academic Dashboard 
+A full-stack application that allows university teachers to categorise and display student academic information alongside admin functionality such as adding, editing and deleting student records.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Tech Stack
 
-Currently, two official plugins are available:
+- **React** - Used to create an interactive UI that updates when application state changes.
+- **TypeScript** - Used to add types that clearly defined the structure of application data.
+- **SQLite** - Database application used to store student information persistently.
+- **Node.js** - Runtime that allows my backend JavaScript to execute outside the browser.
+- **Tailwind CSS** - Used to handle visual styling. 
+- **Express.js** - Used to handle API requests between the frontend and the database and return appropriate responses.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features 
 
-## React Compiler
+- View all student records and academic information.
+- Add new student records.
+- Edit existing student information.
+- Delete student records.
+- Search for students.
+- Filter students by qualification.
+- Confirmation prompts before deleting records.
+- Toast notifications for user actions.
+- Loading states while student data is being retrieved.
+- Error handling for failed API requests. 
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## How it works
 
-Note: This will impact Vite dev & build performances.
+When the application first loads, the students state is initially empty. After the StudentProvider mounts, useEffect runs and calls a function that loads the student data.
 
-## Expanding the ESLint configuration
+The student service sends a GET request to the Express backend. Express handles the request and queries the SQLite database using SQL. SQLite returns the student records to Express, which sends the data back as JSON.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The student service returns this data to the StudentContext, where setStudents stores it in the students state. Updating the state causes React to re-render, displaying the student information on screen.
+## Project Structure 
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Setup / Running Locally
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Screenshots 
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Future Improvements
