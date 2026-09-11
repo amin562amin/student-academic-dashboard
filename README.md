@@ -39,7 +39,6 @@ The student service returns this data to the StudentContext, where setStudents s
 - `services/` – Contains the frontend API communication logic. `studentService.ts` sends HTTP requests to the Express backend and returns the responses to the React application.
 
 ## Setup / Running Locally
-## Setup / Running Locally
 
 1. Clone the repository and navigate into the project folder.
 
