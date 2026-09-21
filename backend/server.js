@@ -1,20 +1,20 @@
-// gives access to EXPRESS 
-// also allows front end to talk to backend
+// Gives access to Express 
+// Also allows frontend to communicate with backend
 const express = require("express");
 const cors = require("cors");
 const db = require("./database/db");
 
 
-// creating the backend application
+// Creates the Express application
 const app = express();
 
 // Enables cross orgin requests
-// expres.json allows express to understand JSON sent by the frontend
+// expres.json allows Express to process JSON sent by the frontend 
 app.use(cors());
 app.use(express.json());
 
 
-// Function runs antyime someone visits /app/test
+// Test route used to confirm that the backend is running
 app.get("/api/test", (req, res) => {
   res.json({
     message: "Backend working!"
@@ -128,7 +128,7 @@ app.put("/api/students/:id", (req, res) => {
 
 }) 
 
-// Express starts listening for requests
+// Starts the Express server
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });

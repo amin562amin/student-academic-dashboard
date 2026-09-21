@@ -1,12 +1,12 @@
 
 import DashboardCard from "../components/DashboardCard"
-import { UseStudents } from "../context/StudentContext";
+import { useStudents } from "../context/StudentContext";
 
 
 
 
 function Dashboard() {
- const {students} = UseStudents();
+ const {students} = useStudents();
   
   
   const firstClassStudents = students.filter((student) => student.qualification === "First").length;
@@ -43,7 +43,7 @@ function Dashboard() {
         <DashboardCard title="Unique Courses" value= {uniqueCourses.length.toString()} />
         <DashboardCard title= "First Class Students" value = {firstClassStudents.toString()}/>
         <DashboardCard title = "At Risk Students" value = {atRiskStudents.toString()} />
-        <DashboardCard title = "Top Student" value = {students.length > 0 ? topStudent.name.toString() : "N/A"}
+        <DashboardCard title = "Top Student" value={topStudent ? topStudent.name : "N/A"}
          />
       </section>      
     </>

@@ -2,7 +2,7 @@ import SearchBar from "../components/SearchBar";
 import AddStudentsForm,  {type Student} from "../components/AddStudentsForm";
 import StudentRow from "../components/StudentRow";
 import DeleteModal from "../components/DeleteModal";
-import { UseStudents } from "../context/StudentContext";
+import { useStudents } from "../context/StudentContext";
 import { useState } from "react";
 import { studentServices } from "../services/studentService";
 import { toast } from "react-toastify";
@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 export default function Students() {
   const header_styling = "p-4 text-left"
   const [searchTerm, setSearchTerm] = useState("");
-  const {students, setStudents, loading, error } = UseStudents();
+  const {students, setStudents, loading, error } = useStudents();
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const filteredStudent = students.filter((student) =>
   student.name.toLocaleLowerCase().includes(searchTerm.toLowerCase()));

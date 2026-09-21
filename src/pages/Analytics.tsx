@@ -1,9 +1,9 @@
 
 import DashboardCard from "../components/DashboardCard";
-import { UseStudents } from "../context/StudentContext";
+import { useStudents } from "../context/StudentContext";
 
 export default function Analytics() {
-  const {students} = UseStudents();
+  const {students} = useStudents();
   const header_styling = "p-4 text-left"
 
   const highestGrade = students.length > 0 ? Math.max(...students.map((student) => student.averageGrade))  :0;

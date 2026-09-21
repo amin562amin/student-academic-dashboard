@@ -1,8 +1,8 @@
 
-import { UseStudents } from "../context/StudentContext";
+import { useStudents } from "../context/StudentContext";
 
 export default function Settings() {
-  const {students, } = UseStudents();
+  const {students, } = useStudents();
 
   const totalCourses = new Set(students.map(student => student.course)).size
   

@@ -1,4 +1,4 @@
-// This context manages React state for the app
+// Provides shared student data and request state across the application
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Student } from "../components/AddStudentsForm";
@@ -22,8 +22,8 @@ type StudentProviderProps = {
 // Storing the states used across pages within the StudentProvider Container
 export function StudentProvider({children}: StudentProviderProps){
     const [students, setStudents] = useState<Student[]>([]);
-    const [loading,setLoading] = useState<boolean>(true); // can only be true or false
-    const [error, setError] = useState<string | null>(null); // either an error message or nothing
+    const [loading, setLoading] = useState<boolean>(true); // Tracks whether student data is loading
+const [error, setError] = useState<string | null>(null); // Stores an error message if loading fails
 
      useEffect(() => {
         async function loadStudents() {
@@ -49,8 +49,9 @@ export function StudentProvider({children}: StudentProviderProps){
         </StudentContext.Provider>
     );
 }
-// Retrieving the data within the Container 
-export function UseStudents(){
+// Hook for accessing the student context
+// eslint-disable-next-line react-refresh/only-export-components
+export function useStudents() {
     const context = useContext(StudentContext);
 
     if (!context){

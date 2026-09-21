@@ -1,8 +1,6 @@
 // This service handles communication with the student API
 import type { Student } from "../components/AddStudentsForm";
 
-
-
 export const studentServices = {
     async getStudents(): Promise<Student[]> {
         
@@ -10,12 +8,16 @@ export const studentServices = {
             "http://localhost:5000/api/students"
         );
 
+        if(!response.ok){
+            throw new Error("Failed to fetch students");
+        }
+
         const students = await response.json();
 
         return students;
     },
 
-    // Talk to the API and make sure the database deleteion succeeds
+    // Sends a DELETE request to remove a student
     async deleteStudent(id: number){
     const response = await fetch(`http://localhost:5000/api/students/${id}`,{
     method: "DELETE",
@@ -39,7 +41,6 @@ export const studentServices = {
     }
     const data = await response.json();
 
-
     return data.id;
    },
 
@@ -54,8 +55,5 @@ export const studentServices = {
     if(!response.ok){
         throw new Error("Failed to update student");
     }
-
-   
    }
-    
 };
