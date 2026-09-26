@@ -32,7 +32,7 @@ const currentStudent: Student = {
     :  qualification === "2:1"
     ? "bg-blue-100 text-blue-800"
     : qualification === "2:2"
-    ? "bg-yellow-100 text-yellow-100"
+    ? "bg-yellow-100 text-yellow-800"
     : "bg-red-100 text-red-800";
     return( 
         <tr className="border-b hover:bg-gray-100 transition ">
